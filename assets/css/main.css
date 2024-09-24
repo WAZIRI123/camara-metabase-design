@@ -1196,6 +1196,16 @@ section,
   position: relative;
   height: 100%;
 }
+#DailyUsage, #contact,#DailyUsage1, #contact1,#DailyUsage2, #contact2,#DailyUsage3, #contact3 {
+  display: none;
+}
+
+.footer-border {
+  border-top: 1px solid gray; /* Set the border color to gray */
+  margin: 0 auto; /* Center the border */
+  padding-top: 20px; /* Add some space above the content */
+  max-width: 80%; /* Adjust this if needed for responsiveness */
+}
 
 .testimonials .testimonial-item .testimonial-img {
   width: 90px;
