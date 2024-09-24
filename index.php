@@ -1,30 +1,13 @@
 <?php include 'partials/header.php'; ?>
   <main class="main">
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-
-      <img src="https://camara.org/wp-content/uploads/elementor/thumbs/Sustainability-School-scaled-qt88ki23fe7l8uvofnyphmohi1i9ckyi7jziqi7rxo.jpg" alt="" data-aos="fade-in">
-
-      <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <h2>Camara Education Report</h2>
-            <p>This page shows your school's performance based on data collected from the classroom server and synced with the Camara cloud server, reflecting student interaction with educational resources.</p>
-            <a href="#reportSection" class="btn-get-started">Get Report</a>
-          </div>
-        </div>
-      </div>
-
-    </section><!-- /Hero Section -->
-
     <!-- Report Section -->
     <section id="reportSection" class="report section">
 
       <!-- Section Title -->
       <div class="container  section-title" data-aos="fade-up" >
-        <h2>Generate Reports</h2>
-        <p>Select the country, school, and date range to generate comprehensive reports of school.</p>
+        <h2>Computer Usage</h2>
+        <p>Select the country, project, and date range to generate comprehensive reports of project.</p>
       </div><!-- End Section Title -->
 
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
@@ -48,11 +31,11 @@
                   </select>
                 </div>
 
-                <!-- School Select Input -->
+                <!-- project Select Input -->
                 <div class="col-md-6">
-                  <label for="school_name" class="form-label">School</label>
-                  <select name="school_name" id="school_name" class="form-control" required>
-                    <option value="" disabled selected>Select School</option>
+                  <label for="project_name" class="form-label">project</label>
+                  <select name="project_name" id="project_name" class="form-control" required>
+                    <option value="" disabled selected>Select project</option>
                     <!-- Options will be populated based on selected country -->
                   </select>
                 </div>
@@ -86,35 +69,45 @@
       </div>
 
     </section><!-- /Report Section -->
-    <?php include 'partials/schoolframe1.php'; ?>
-    <?php include 'partials/schoolframe2.php'; ?>
 
-    <?php include 'partials/schoolframe3.php'; ?>
+    <?php include 'partials/ComputerUsageGraph/1GeneralUsageGraph.php'; ?>
 
+    <?php include 'partials/ComputerUsageGraph/2GeneralUsageTable.php'; ?>
+
+    <?php include 'partials/ComputerUsageGraph/3DailyUsageAverageMonthlyDistribution.php'; ?>
+
+    <?php include 'partials/ComputerUsageGraph/4MonthlyUsageDistributionActiveTime.php'; ?>
+
+    <?php include 'partials/ComputerUsageGraph/5DailyUsageAverageMonthlyDistribution.php'; ?>
+    
   </main>
 
 
 <?php include 'partials/footer.php'; ?>
+
 <script>
     function updateIframes() {
   const applyBtn = document.getElementById('applyBtn');
   const iframes = [
-    {iframe: document.getElementById('metabaseIframe1'), section: document.getElementById('contact')},
-    {iframe: document.getElementById('metabaseIframe2'), section: document.getElementById('DailyUsage')},
-    {iframe: document.getElementById('metabaseIframe3'), section: document.getElementById('contact1')},
-    {iframe: document.getElementById('metabaseIframe4'), section: document.getElementById('DailyUsage1')},
-    {iframe: document.getElementById('metabaseIframe5'), section: document.getElementById('contact2')},
-    {iframe: document.getElementById('metabaseIframe6'), section: document.getElementById('DailyUsage2')}
+    {iframe: document.getElementById('1GeneralUsageGraph'), section: document.getElementById('contact')},
+    
+    {iframe: document.getElementById('2GeneralUsageTable'), section: document.getElementById('DailyUsage')},
+
+    {iframe: document.getElementById('3DailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact1')},
+
+    {iframe: document.getElementById('4MonthlyUsageDistributionActiveTime'), section: document.getElementById('DailyUsage1')},
+
+    {iframe: document.getElementById('5DailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact1')},
   ];
 
 
   const startDate = document.getElementById('startDate').value;
   const endDate = document.getElementById('endDate').value;
   const country = document.getElementById('country').value;
-  const school_name = document.getElementById('school_name').value;
+  const project_name = document.getElementById('project_name').value;
 
   
-  if (!startDate || !endDate || !country || !school_name) {
+  if (!startDate || !endDate || !country || !project_name) {
     alert("Please select all required fields.");
     return;
   }
@@ -122,7 +115,7 @@
   applyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
   applyBtn.disabled = true;
 
-  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&school_name=${school_name}#hide_parameters=school_name,startDate,endDate,project,country`;
+  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project_name=${project_name}#hide_parameters=project_name,startDate,endDate,project,country`;
 
   iframes.forEach(function(item) {
     const {iframe, section} = item;
@@ -148,30 +141,30 @@
 
     
 
-    // AJAX to populate the school list based on the selected country
+    // AJAX to populate the project list based on the selected country
     $('#country').change(function() {
       var country = $(this).val();
+      
       if (!country) {
-        $('#school_name').empty().append('<option value="" disabled selected>Select School</option>');
+        $('#project_name').empty().append('<option value="" disabled selected>Select project</option>');
         return;
       }
       $.ajax({
         type: 'GET',
-        url: '/get_schools.php',  // URL to fetch the schools based on the country
+        url: '/get_projects.php',  // URL to fetch the projects based on the country
         data: { country: country },
         dataType: 'json',
         success: function(response) {
-            console.log(response)
-          var schoolDropdown = $('#school_name');
-          schoolDropdown.empty();
-          schoolDropdown.append('<option value="" disabled selected>Select School</option>');
-          $.each(response, function(index, school) {
-            schoolDropdown.append('<option value="' + htmlspecialchars(school.name) + '">' + htmlspecialchars(school.name) + '</option>');
+          var projectDropdown = $('#project_name');
+          projectDropdown.empty();
+          projectDropdown.append('<option value="" disabled selected>Select project</option>');
+          $.each(response, function(index, project) {
+            projectDropdown.append('<option value="' + htmlspecialchars(project.name) + '">' + htmlspecialchars(project.name) + '</option>');
           });
         },
         error: function(xhr, status, error) {
-          console.error("Error fetching schools:", error);
-          alert("An error occurred while fetching the schools. Please try again.");
+          console.error("Error fetching projects:", error);
+          alert("An error occurred while fetching the projects. Please try again.");
         }
       });
     });

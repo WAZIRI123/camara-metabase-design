@@ -68,12 +68,12 @@ $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="ComputerUsage.php" class="active">Home</a></li>
+          <li><a href="/" class="active">Home</a></li>
           <li><a href="schoolReport.php" >School</a></li>
           <li><a href="Region.php" >Regions</a></li>
-          <li class="dropdown"><a href="#"><span>Reports</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown"><a href="#"><span>Portal</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="schoolReport.php">School Report</a></li>
+              <li><a href="schoolReport.php">Main Portal</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>
