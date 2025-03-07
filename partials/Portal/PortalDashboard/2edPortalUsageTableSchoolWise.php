@@ -1,10 +1,10 @@
 
 <!-- Iframe1 Section -->
-<section id="contact1" class="contact section">
+<section id="contact" class="contact section">
 
 <!-- Section Title -->
 <div class="container section-title" data-aos="fade-up">
-  <h2>Regional School General Usage</h2>
+  <h2>edPortal Usage Table SchoolWise</h2>
   <p>This section gives you  information about the general usage of a school within a given timeframe.</p>
 </div><!-- End Section Title -->
 
@@ -13,7 +13,7 @@
   <div class="row gy-4">
 
     <div class="col-lg-12">
-    <iframe id="3RegionalSchoolGeneralUsage" dashboardId="0a350585-795c-4f5b-b533-0a68a4f1aba7" src="" width="100%" height="400" frameborder="0"></iframe>
+    <iframe id="2edPortalUsageTableSchoolWise" dashboardId="256f9e7c-2617-493f-bd4c-20ad1bb80ab5" src="" width="100%" height="400" frameborder="0"></iframe>
       
     </div><!-- End iframe1 -->
 

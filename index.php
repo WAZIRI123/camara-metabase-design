@@ -115,7 +115,7 @@
   applyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
   applyBtn.disabled = true;
 
-  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project_name=${project_name}#hide_parameters=project_name,startDate,endDate,project,country`;
+  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project=${project_name}#hide_parameters=project_name,startDate,endDate,country`;
 
   iframes.forEach(function(item) {
     const {iframe, section} = item;
@@ -158,8 +158,15 @@
           var projectDropdown = $('#project_name');
           projectDropdown.empty();
           projectDropdown.append('<option value="" disabled selected>Select project</option>');
-          $.each(response, function(index, project) {
-            projectDropdown.append('<option value="' + htmlspecialchars(project.name) + '">' + htmlspecialchars(project.name) + '</option>');
+          $.each(response, function(index, projects) {
+            $.each(projects.Sc_Projects, function(index, project) {
+              projectDropdown.append('<option value="' + htmlspecialchars(project.Sc_Projects) + '">' + htmlspecialchars(project.Sc_Projects));
+            });
+
+            $.each(projects.name, function(index, project) {
+              projectDropdown.append('<option value="' + htmlspecialchars(project.name) + '">' + htmlspecialchars(project.name));
+            });
+           
           });
         },
         error: function(xhr, status, error) {

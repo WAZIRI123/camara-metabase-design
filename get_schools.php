@@ -5,6 +5,7 @@ $dbname = "test";     // Database name
 $username = "root";   // Database username
 $password = "";       // Database password
 
+
 // Create a new PDO connection
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -16,18 +17,12 @@ try {
 
 // Check if a country is sent via GET
 if (isset($_GET['country'])) {
-    $country_name = $_GET['country'];
-
-    // Query to get the country ID based on the country name
-    $stmt = $pdo->prepare("SELECT id FROM country WHERE name = :name");
-    $stmt->execute(['name' => $country_name]);
-    $country = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    $country = $_GET['country'];
     // Check if a country was found
     if ($country) {
         // Query to get schools based on the country ID
-        $stmt = $pdo->prepare("SELECT id, name FROM schools WHERE country_id = :country_id");
-        $stmt->execute(['country_id' => $country['id']]);
+        $stmt = $pdo->prepare("SELECT distinct id, sc_name FROM schools WHERE sc_country = :sc_country");
+        $stmt->execute(['sc_country' => $country]);
 
         // Fetch the results as an associative array
         $schools = $stmt->fetchAll(PDO::FETCH_ASSOC);

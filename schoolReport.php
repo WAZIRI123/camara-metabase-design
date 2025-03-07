@@ -57,7 +57,10 @@
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
                   <div class="sent-message">Your reports have been generated. Thank you!</div>
-                  <button type="button" id="applyBtn" class="btn btn-primary" onclick="updateIframes()">Generate Report</button>
+                  <div class="d-flex justify-content-center gap-2">
+    <button type="button" id="applyBtn" class="btn btn-primary" onclick="updateIframes()">Generate Report</button>
+    <button type="button" id="shareBtn" class="btn btn-secondary" onclick="shareReport()">Share Report</button>
+  </div>
                 </div>
 
               </div>
@@ -82,9 +85,7 @@
 
     <?php include 'partials/school/6DailyUsageAverageMonthlyDistribution.php'; ?>
 
-    <?php include 'partials/school/7applicationUsage.php'; ?>
 
-    <?php include 'partials/school/8SiteVisitedRecords.php'; ?>
     
   </main>
 
@@ -92,6 +93,36 @@
 <?php include 'partials/footer.php'; ?>
 
 <script>
+
+function shareReport() {
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  const country = document.getElementById('country').value;
+  const school_name = document.getElementById('school_name').value;
+
+  if (!startDate || !endDate || !country || !school_name) {
+    alert("Please select all required fields before sharing.");
+    return;
+  }
+
+  // Construct the shareable URL
+  const queryParams = new URLSearchParams({
+    startDate: startDate,
+    endDate: endDate,
+    country: country,
+    school_name: school_name
+  }).toString();
+
+  const shareableURL = `${window.location.origin}${window.location.pathname}?${queryParams}`;
+  
+  // Copy to clipboard
+  navigator.clipboard.writeText(shareableURL).then(() => {
+    alert("Shareable link copied to clipboard!");
+  }).catch(err => {
+    console.error("Failed to copy:", err);
+  });
+}
+
     function updateIframes() {
   const applyBtn = document.getElementById('applyBtn');
   const iframes = [

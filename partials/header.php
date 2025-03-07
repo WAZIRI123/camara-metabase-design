@@ -13,7 +13,7 @@ try {
 }
 
 // Fetch country list from the database
-$stmt = $pdo->query("SELECT id, name FROM country");
+$stmt = $pdo->query("SELECT id, name FROM countries");
 $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -73,7 +73,9 @@ $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <li><a href="Region.php" >Regions</a></li>
           <li class="dropdown"><a href="#"><span>Portal</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="schoolReport.php">Main Portal</a></li>
+              <li><a href="portal.php">Main Portal</a></li>
+              <li><a href="PortalDashboard.php">PortalDashboard(School)</a></li>
+              <li><a href="linux.php">Portal Dashboard (School)</a></li>
               <!-- <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>
@@ -88,7 +90,9 @@ $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <li><a href="#">Dropdown 4</a></li> -->
             </ul>
           </li>
+          <li><a href="faq.php" >FAQ's</a></li>
         </ul>
+
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 

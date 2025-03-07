@@ -20,16 +20,32 @@ if (isset($_GET['country'])) {
 
     // Check if a projectwas found
     if ($country_name) {
-       
+    
+        $stmt1 = $pdo->prepare("SELECT DISTINCT Sc_Projects FROM schools WHERE Sc_Country = :country_name");
+        $stmt1->execute(['country_name' => $country_name]);
+
+        $projects1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt2 = $pdo->prepare("SELECT DISTINCT Sc_Region FROM schools WHERE Sc_Country = :country_name");
+        $stmt2->execute(['country_name' => $country_name]);
+
+        $regions = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
         // Query to get projects based on the projectID
         $stmt = $pdo->prepare("SELECT id, name FROM projects WHERE hub = :project");
         $stmt->execute(['project' => $country_name ]);
 
         // Fetch the results as an associative array
-        $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $projects2 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+         
+        $projects = [
+            'Sc_Projects' => $projects1,
+            'name' => $projects2,
+            'region' => $regions
+        ];
 
         // Return the list of projects as a JSON response
-        echo json_encode($projects);
+        echo json_encode([$projects]);
     } else {
         // Return an error if the projectwas not found
         echo json_encode(['error' => 'project not found']);

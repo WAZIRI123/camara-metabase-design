@@ -48,24 +48,50 @@
 
 
   <!-- jQuery & AJAX Script -->
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  // Get all links in the navmenu
+   document.addEventListener('DOMContentLoaded', function () {
+  // Get all links in the navmenu, including dropdown links
   const navLinks = document.querySelectorAll('#navmenu a');
   const currentPath = window.location.pathname.split("/").pop(); // Get the current page file name
 
   navLinks.forEach(link => {
+    const linkPath = link.getAttribute('href').split("/").pop(); // Get the link path
+    
     // Check if the href of the link matches the current path
-    if (link.getAttribute('href') === currentPath || (link.getAttribute('href') === "/" && currentPath === "")) {
-      link.classList.add('active'); // Add the active class
+    if (linkPath === currentPath || (link.getAttribute('href') === "/" && currentPath === "")) {
+      link.classList.add('active'); // Add the active class to the matching link
+
+      // If the link is inside a dropdown, make sure to open the dropdown
+      const parentDropdown = link.closest('.dropdown');
+      if (parentDropdown) {
+        // Add a class to open the dropdown (e.g., add 'open' or 'show' class)
+        parentDropdown.querySelector('ul').classList.add('show'); // Show the dropdown menu
+        parentDropdown.querySelector('a').classList.add('active'); // Highlight the parent link (optional)
+      }
     } else {
       link.classList.remove('active'); // Remove the active class from other links
     }
   });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+        // Get the current year
+        const currentYear = new Date().getFullYear();
+
+        // Create the start date (1st January of the current year)
+        const startDate = new Date(currentYear, 0, 2).toISOString().split('T')[0];
+        document.getElementById('startDate').value = startDate;
+
+        // Create the end date (31st December of the current year)
+        const endDate = new Date(currentYear, 11, 32).toISOString().split('T')[0];
+        document.getElementById('endDate').value = endDate;
+    });
+
+    
   </script>
 
 

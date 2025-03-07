@@ -6,8 +6,8 @@
 
       <!-- Section Title -->
       <div class="container  section-title" data-aos="fade-up" >
-        <h2>Computer Usage</h2>
-        <p>Select the country, project, and date range to generate comprehensive reports of project.</p>
+        <h2> linux Universal Usage Dashboard</h2>
+        <p>Select the country, school, and date range to generate comprehensive reports of school.</p>
       </div><!-- End Section Title -->
 
       <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
@@ -28,15 +28,6 @@
                       <option value="<?= htmlspecialchars($country['name']); ?>"><?= htmlspecialchars($country['name']); ?></option>
                     <?php endforeach; ?>
                     <!-- Add more options as needed -->
-                  </select>
-                </div>
-
-                <!-- project Select Input -->
-                <div class="col-md-6">
-                  <label for="project_name" class="form-label">project</label>
-                  <select name="project_name" id="project_name" class="form-control" required>
-                    <option value="" disabled selected>Select project</option>
-                    <!-- Options will be populated based on selected country -->
                   </select>
                 </div>
 
@@ -70,15 +61,20 @@
 
     </section><!-- /Report Section -->
 
-    <?php include 'partials/ComputerUsageGraph/1GeneralUsageGraph.php'; ?>
+  
+    <?php include 'partials/Portal/linux/1GeneralUsageGraphLinuxHRS.php'; ?>
 
-    <?php include 'partials/ComputerUsageGraph/2GeneralUsageTable.php'; ?>
+    <?php include 'partials/Portal/linux/2GeneralUsageTableforLinuxHRS.php'; ?>
 
-    <?php include 'partials/ComputerUsageGraph/3DailyUsageAverageMonthlyDistribution.php'; ?>
+    <?php include 'partials/Portal/linux/3ClientDistributionPerMonthForLinux.php'; ?>
 
-    <?php include 'partials/ComputerUsageGraph/4MonthlyUsageDistributionActiveTime.php'; ?>
+    <?php include 'partials/Portal/linux/4ActiveUsageDistributionperMonthLinuxHRS.php'; ?>
 
-    <?php include 'partials/ComputerUsageGraph/5DailyUsageAverageMonthlyDistribution.php'; ?>
+    <?php include 'partials/Portal/linux/5Activeusagetimepermachineperdaybreakdownpermonth.php'; ?>
+
+    <?php include 'partials/Portal/linux/6ActiveUsageDistributionandNumberofDevicesConnectedperDayTableLinuxHRS.php'; ?>
+
+
     
   </main>
 
@@ -89,25 +85,24 @@
     function updateIframes() {
   const applyBtn = document.getElementById('applyBtn');
   const iframes = [
-    {iframe: document.getElementById('1GeneralUsageGraph'), section: document.getElementById('contact')},
+    {iframe: document.getElementById('1GeneralUsageGraphLinuxHRS'), section: document.getElementById('DailyUsage')},
     
-    {iframe: document.getElementById('2GeneralUsageTable'), section: document.getElementById('DailyUsage')},
+    {iframe: document.getElementById('2GeneralUsageTableforLinuxHRS'), section: document.getElementById('contact')},
 
-    {iframe: document.getElementById('3DailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact1')},
+    {iframe: document.getElementById('3ClientDistributionPerMonthForLinux'), section: document.getElementById('contact1')},
 
-    {iframe: document.getElementById('4MonthlyUsageDistributionActiveTime'), section: document.getElementById('DailyUsage1')},
+    {iframe: document.getElementById('4ActiveUsageDistributionperMonthLinuxHRS'), section: document.getElementById('DailyUsage1')},
 
-    {iframe: document.getElementById('5DailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact1')},
+    {iframe: document.getElementById('5Activeusagetimepermachineperdaybreakdownpermonth'), section: document.getElementById('contact2')},
+    {iframe: document.getElementById('6ActiveUsageDistributionandNumberofDevicesConnectedperDayTableLinuxHRS'), section: document.getElementById('DailyUsage2')},
   ];
-
 
   const startDate = document.getElementById('startDate').value;
   const endDate = document.getElementById('endDate').value;
   const country = document.getElementById('country').value;
-  const project_name = document.getElementById('project_name').value;
 
   
-  if (!startDate || !endDate || !country || !project_name) {
+  if (!startDate || !endDate || !country) {
     alert("Please select all required fields.");
     return;
   }
@@ -115,7 +110,7 @@
   applyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
   applyBtn.disabled = true;
 
-  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project_name=${project_name}#hide_parameters=project_name,startDate,endDate,project,country`;
+  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}#hide_parameters=startDate,endDate,country`;
 
   iframes.forEach(function(item) {
     const {iframe, section} = item;
@@ -140,42 +135,6 @@
 }
 
     
-
-    // AJAX to populate the project list based on the selected country
-    $('#country').change(function() {
-      var country = $(this).val();
-      
-      if (!country) {
-        $('#project_name').empty().append('<option value="" disabled selected>Select project</option>');
-        return;
-      }
-      $.ajax({
-        type: 'GET',
-        url: '/get_projects.php',  // URL to fetch the projects based on the country
-        data: { country: country },
-        dataType: 'json',
-        success: function(response) {
-          var projectDropdown = $('#project_name');
-          projectDropdown.empty();
-          projectDropdown.append('<option value="" disabled selected>Select project</option>');
-          $.each(response, function(index, projects) {
-            $.each(projects.Sc_Projects, function(index, project) {
-              projectDropdown.append('<option value="' + htmlspecialchars(project.Sc_Projects) + '">' + htmlspecialchars(project.Sc_Projects));
-            });
-
-            $.each(projects.name, function(index, project) {
-              projectDropdown.append('<option value="' + htmlspecialchars(project.name) + '">' + htmlspecialchars(project.name));
-            });
-           
-          });
-        },
-        error: function(xhr, status, error) {
-          console.error("Error fetching projects:", error);
-          alert("An error occurred while fetching the projects. Please try again.");
-        }
-      });
-    });
-
     // Helper function to escape HTML characters
     function htmlspecialchars(str) {
       return str.replace(/&/g, "&amp;")

@@ -1280,6 +1280,11 @@ section,
   background-color: var(--accent-color);
 }
 
+@media (min-width: 992px) {
+  #basicAccordion {
+    width: 75% !important;
+  }
+}
 @media (max-width: 767px) {
   .testimonials .testimonial-wrap {
     padding-left: 0;

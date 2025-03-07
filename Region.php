@@ -31,6 +31,15 @@
                   </select>
                 </div>
 
+                 <!-- project Select Input -->
+                 <div class="col-md-6">
+                  <label for="region" class="form-label">Regions</label>
+                  <select name="region" id="region" class="form-control" required>
+                    <option value="" disabled selected>Select region</option>
+                    <!-- Options will be populated based on selected country -->
+                  </select>
+                </div>
+
                 <!-- project Select Input -->
                 <div class="col-md-6">
                   <label for="project_name" class="form-label">project</label>
@@ -40,11 +49,7 @@
                   </select>
                 </div>
 
-                 <!-- Region Name Input -->
-                 <div class="col-md-6">
-                  <label for="region_name" class="form-label">Region Name</label>
-                  <input type="text" id="region_name" name="region_name" class="form-control" placeholder="Region Name">
-                </div>
+                 
 
                 <!-- Start Date Input -->
                 <div class="col-md-6">
@@ -114,10 +119,10 @@
   const endDate = document.getElementById('endDate').value;
   const country = document.getElementById('country').value;
   const project_name = document.getElementById('project_name').value;
-  const region = document.getElementById('region_name').value;
+  const region = document.getElementById('region').value;
 
   
-  if (!startDate || !endDate || !country || !project_name) {
+  if (!startDate || !endDate || !country) {
     alert("Please select all required fields.");
     return;
   }
@@ -125,7 +130,7 @@
   applyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
   applyBtn.disabled = true;
 
-  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project_name=${project_name}&region=${region}#hide_parameters=project_name,startDate,endDate,project,country,region`;
+  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project=${project_name}&region=${region}#hide_parameters=project_name,startDate,endDate,project,country,region`;
 
   iframes.forEach(function(item) {
     const {iframe, section} = item;
@@ -166,10 +171,23 @@
         dataType: 'json',
         success: function(response) {
           var projectDropdown = $('#project_name');
+          var regionDropdown = $('#region');
           projectDropdown.empty();
+          regionDropdown.empty();
           projectDropdown.append('<option value="" disabled selected>Select project</option>');
-          $.each(response, function(index, project) {
-            projectDropdown.append('<option value="' + htmlspecialchars(project.name) + '">' + htmlspecialchars(project.name) + '</option>');
+          regionDropdown.append('<option value="" disabled selected>Select region</option>');
+          $.each(response, function(index, projects) {
+            $.each(projects.Sc_Projects, function(index, project) {
+              projectDropdown.append('<option value="' + htmlspecialchars(project.Sc_Projects) + '">' + htmlspecialchars(project.Sc_Projects));
+            });
+
+            $.each(projects.name, function(index, project) {
+              projectDropdown.append('<option value="' + htmlspecialchars(project.name) + '">' + htmlspecialchars(project.name));
+            });
+
+            $.each(projects.region, function(index, project) {
+              regionDropdown.append('<option value="' + htmlspecialchars(project.Sc_Region) + '">' + htmlspecialchars(project.Sc_Region));
+            });
           });
         },
         error: function(xhr, status, error) {
