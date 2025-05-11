@@ -63,7 +63,7 @@
                   <input type="date" id="endDate" name="end_date" class="form-control" placeholder="End Date" required>
                 </div>
 
-                <!-- Submit Button -->
+                <!-- Submit Button  http://meta.dashboard.camara.org/public/question/c065568b-d1ae-4a00-98f4-932df1b56ea5-->
                 <div class="col-md-12 text-center">
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
@@ -95,6 +95,8 @@
     <?php include 'partials/Regions/5RegionalDailyUsageAverageMonthlyDistribution.php'; ?>
     
     <?php include 'partials/Regions/6ClientsSyncedByMonthvsRegionalClients.php'; ?>
+    
+    <?php include 'partials/Regions/7RegionDailyUsageAveragePerSyncedClientsMonthly.php'; ?>
   </main>
 
 
@@ -144,8 +146,11 @@ function updateIframes() {
     {iframe: document.getElementById('4RegionalSchoolClientDistributionMonthly'), section: document.getElementById('DailyUsage1')},
 
     {iframe: document.getElementById('5RegionalDailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact2')},
+    {iframe: document.getElementById('7RegionDailyUsageAveragePerSyncedClientsMonthly'), section: document.getElementById('contact3')},
 
     {iframe: document.getElementById('6ClientsSyncedByMonthvsRegionalClients'), section: document.getElementById('DailyUsage2')},
+
+   
   ];
 
 

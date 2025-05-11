@@ -89,7 +89,7 @@
 
     <?php include 'partials/school/8SiteVisitedRecords.php'; ?>
 
-
+    <?php include 'partials/school/9SchoolDailyUsageAveragePerSyncedClientsMonthly.php'; ?>
     
   </main>
 
@@ -145,6 +145,8 @@ function shareReport() {
     {iframe: document.getElementById('7applicationUsage'), section: document.getElementById('contact3')},
 
     {iframe: document.getElementById('8SiteVisitedRecords'), section: document.getElementById('DailyUsage3')},
+
+    {iframe: document.getElementById('9SchoolDailyUsageAveragePerSyncedClientsMonthly'), section: document.getElementById('contact4')},
 
   ];
 
