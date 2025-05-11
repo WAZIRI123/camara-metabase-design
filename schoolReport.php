@@ -85,6 +85,10 @@
 
     <?php include 'partials/school/6DailyUsageAverageMonthlyDistribution.php'; ?>
 
+    <?php include 'partials/school/7applicationUsage.php'; ?>
+
+    <?php include 'partials/school/8SiteVisitedRecords.php'; ?>
+
 
     
   </main>
@@ -226,6 +230,47 @@ function shareReport() {
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
+  
+  <!-- URL Parameter Parser -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if we have parameters to fill
+    if (urlParams.has('startDate') && urlParams.has('endDate') && urlParams.has('country')) {
+      const startDate = urlParams.get('startDate');
+      const endDate = urlParams.get('endDate');
+      const country = urlParams.get('country');
+      const school_name = urlParams.get('school_name');
+      
+      // Set form field values
+      document.getElementById('startDate').value = startDate;
+      document.getElementById('endDate').value = endDate;
+      
+      // Set country dropdown and trigger change event to load schools
+      const countrySelect = document.getElementById('country');
+      if (countrySelect) {
+        countrySelect.value = country;
+        
+        // Trigger the change event to load schools
+        $(countrySelect).trigger('change');
+        
+        // We need a slight delay to wait for the schools to load
+        setTimeout(function() {
+          // Set school dropdown
+          const schoolSelect = document.getElementById('school_name');
+          if (schoolSelect && school_name) {
+            schoolSelect.value = school_name;
+          }
+          
+          // Generate report automatically
+          updateIframes();
+        }, 1000); // 1 second delay to allow AJAX to complete
+      }
+    }
+  });
+  </script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>

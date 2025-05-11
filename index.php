@@ -57,7 +57,10 @@
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
                   <div class="sent-message">Your reports have been generated. Thank you!</div>
-                  <button type="button" id="applyBtn" class="btn btn-primary" onclick="updateIframes()">Generate Report</button>
+                  <div class="d-flex justify-content-center gap-2">
+                    <button type="button" id="applyBtn" class="btn btn-primary" onclick="updateIframes()">Generate Report</button>
+                    <button type="button" id="shareBtn" class="btn btn-secondary" onclick="shareReport()">Share Report</button>
+                  </div>
                 </div>
 
               </div>
@@ -70,15 +73,16 @@
 
     </section><!-- /Report Section -->
 
-    <?php include 'partials/ComputerUsageGraph/1GeneralUsageGraph.php'; ?>
-
-    <?php include 'partials/ComputerUsageGraph/2GeneralUsageTable.php'; ?>
+    <?php include 'partials/ComputerUsageGraph/5DailyUsageAverageMonthlyDistribution.php'; ?>
+    <?php include 'partials/ComputerUsageGraph/6DailyUsageAveragePerSyncedClientsMonthlyDistribution.php'; ?>
 
     <?php include 'partials/ComputerUsageGraph/3DailyUsageAverageMonthlyDistribution.php'; ?>
 
-    <?php include 'partials/ComputerUsageGraph/4MonthlyUsageDistributionActiveTime.php'; ?>
+    <?php include 'partials/ComputerUsageGraph/2GeneralUsageTable.php'; ?>
 
-    <?php include 'partials/ComputerUsageGraph/5DailyUsageAverageMonthlyDistribution.php'; ?>
+    <?php include 'partials/ComputerUsageGraph/4MonthlyUsageDistributionActiveTime.php'; ?>
+    
+    <?php include 'partials/ComputerUsageGraph/1GeneralUsageGraph.php'; ?>
     
   </main>
 
@@ -86,7 +90,36 @@
 <?php include 'partials/footer.php'; ?>
 
 <script>
-    function updateIframes() {
+function shareReport() {
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  const country = document.getElementById('country').value;
+  const project_name = document.getElementById('project_name').value;
+
+  if (!startDate || !endDate || !country || !project_name) {
+    alert("Please select all required fields before sharing.");
+    return;
+  }
+
+  // Construct the shareable URL
+  const queryParams = new URLSearchParams({
+    startDate: startDate,
+    endDate: endDate,
+    country: country,
+    project_name: project_name
+  }).toString();
+
+  const shareableURL = `${window.location.origin}${window.location.pathname}?${queryParams}`;
+  
+  // Copy to clipboard
+  navigator.clipboard.writeText(shareableURL).then(() => {
+    alert("Shareable link copied to clipboard!");
+  }).catch(err => {
+    console.error("Failed to copy:", err);
+  });
+}
+
+function updateIframes() {
   const applyBtn = document.getElementById('applyBtn');
   const iframes = [
     {iframe: document.getElementById('1GeneralUsageGraph'), section: document.getElementById('contact')},
@@ -98,6 +131,8 @@
     {iframe: document.getElementById('4MonthlyUsageDistributionActiveTime'), section: document.getElementById('DailyUsage1')},
 
     {iframe: document.getElementById('5DailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact1')},
+    
+    {iframe: document.getElementById('6DailyUsageAveragePerSyncedClientsMonthlyDistribution'), section: document.getElementById('DailyUsage3')},
   ];
 
 
@@ -115,7 +150,7 @@
   applyBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...';
   applyBtn.disabled = true;
 
-  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project=${project_name}#hide_parameters=project_name,startDate,endDate,country`;
+  const queryParams = `?startDate=${startDate}&endDate=${endDate}&country=${country}&project=${project_name}#hide_parameters=project,project_name,startDate,endDate,country`;
 
   iframes.forEach(function(item) {
     const {iframe, section} = item;
@@ -198,6 +233,47 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- URL Parameter Parser -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if we have parameters to fill
+    if (urlParams.has('startDate') && urlParams.has('endDate') && urlParams.has('country')) {
+      const startDate = urlParams.get('startDate');
+      const endDate = urlParams.get('endDate');
+      const country = urlParams.get('country');
+      const project_name = urlParams.get('project_name');
+      
+      // Set form field values
+      document.getElementById('startDate').value = startDate;
+      document.getElementById('endDate').value = endDate;
+      
+      // Set country dropdown and trigger change event to load projects
+      const countrySelect = document.getElementById('country');
+      if (countrySelect) {
+        countrySelect.value = country;
+        
+        // Trigger the change event to load projects
+        $(countrySelect).trigger('change');
+        
+        // We need a slight delay to wait for the projects to load
+        setTimeout(function() {
+          // Set project dropdown
+          const projectSelect = document.getElementById('project_name');
+          if (projectSelect && project_name) {
+            projectSelect.value = project_name;
+          }
+          
+          // Generate report automatically
+          updateIframes();
+        }, 1000); // 1 second delay to allow AJAX to complete
+      }
+    }
+  });
+  </script>
 
 </body>
 

@@ -48,7 +48,10 @@
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
                   <div class="sent-message">Your reports have been generated. Thank you!</div>
-                  <button type="button" id="applyBtn" class="btn btn-primary" onclick="updateIframes()">Generate Report</button>
+                  <div class="d-flex justify-content-center gap-2">
+                    <button type="button" id="applyBtn" class="btn btn-primary" onclick="updateIframes()">Generate Report</button>
+                    <button type="button" id="shareBtn" class="btn btn-secondary" onclick="shareReport()">Share Report</button>
+                  </div>
                 </div>
 
               </div>
@@ -82,7 +85,34 @@
 <?php include 'partials/footer.php'; ?>
 
 <script>
-    function updateIframes() {
+function shareReport() {
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+  const country = document.getElementById('country').value;
+
+  if (!startDate || !endDate || !country) {
+    alert("Please select all required fields before sharing.");
+    return;
+  }
+
+  // Construct the shareable URL
+  const queryParams = new URLSearchParams({
+    startDate: startDate,
+    endDate: endDate,
+    country: country
+  }).toString();
+
+  const shareableURL = `${window.location.origin}${window.location.pathname}?${queryParams}`;
+  
+  // Copy to clipboard
+  navigator.clipboard.writeText(shareableURL).then(() => {
+    alert("Shareable link copied to clipboard!");
+  }).catch(err => {
+    console.error("Failed to copy:", err);
+  });
+}
+
+function updateIframes() {
   const applyBtn = document.getElementById('applyBtn');
   const iframes = [
     {iframe: document.getElementById('1GeneralUsageGraphLinuxHRS'), section: document.getElementById('DailyUsage')},
@@ -157,6 +187,34 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- URL Parameter Parser -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if we have parameters to fill
+    if (urlParams.has('startDate') && urlParams.has('endDate') && urlParams.has('country')) {
+      const startDate = urlParams.get('startDate');
+      const endDate = urlParams.get('endDate');
+      const country = urlParams.get('country');
+      
+      // Set form field values
+      document.getElementById('startDate').value = startDate;
+      document.getElementById('endDate').value = endDate;
+      
+      // Set country dropdown
+      const countrySelect = document.getElementById('country');
+      if (countrySelect) {
+        countrySelect.value = country;
+      }
+      
+      // Generate report automatically
+      updateIframes();
+    }
+  });
+  </script>
 
 </body>
 

@@ -6,7 +6,7 @@
 
       <!-- Section Title -->
       <div class="container  section-title" data-aos="fade-up" >
-        <h2>Computer Usage</h2>
+        <h2>Computer Usage testing</h2>
         <p>Select the country, project, and date range to generate comprehensive reports of project.</p>
       </div><!-- End Section Title -->
 
@@ -79,6 +79,8 @@
     <?php include 'partials/ComputerUsageGraph/4MonthlyUsageDistributionActiveTime.php'; ?>
 
     <?php include 'partials/ComputerUsageGraph/5DailyUsageAverageMonthlyDistribution.php'; ?>
+
+    <?php include 'partials/ComputerUsageGraph/6DailyUsageAveragePerSyncedClientsMonthlyDistribution.php'; ?>
     
   </main>
 
@@ -98,6 +100,8 @@
     {iframe: document.getElementById('4MonthlyUsageDistributionActiveTime'), section: document.getElementById('DailyUsage1')},
 
     {iframe: document.getElementById('5DailyUsageAverageMonthlyDistribution'), section: document.getElementById('contact1')},
+
+    {iframe: document.getElementById('6DailyUsageAveragePerSyncedClientsMonthlyDistribution'), section: document.getElementById('DailyUsage3')},
   ];
 
 
@@ -198,6 +202,47 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- URL Parameter Parser -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Parse URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if we have parameters to fill
+    if (urlParams.has('startDate') && urlParams.has('endDate') && urlParams.has('country')) {
+      const startDate = urlParams.get('startDate');
+      const endDate = urlParams.get('endDate');
+      const country = urlParams.get('country');
+      const project_name = urlParams.get('project_name');
+      
+      // Set form field values
+      document.getElementById('startDate').value = startDate;
+      document.getElementById('endDate').value = endDate;
+      
+      // Set country dropdown and trigger change event to load projects
+      const countrySelect = document.getElementById('country');
+      if (countrySelect) {
+        countrySelect.value = country;
+        
+        // Trigger the change event to load projects
+        $(countrySelect).trigger('change');
+        
+        // We need a slight delay to wait for the projects to load
+        setTimeout(function() {
+          // Set project dropdown
+          const projectSelect = document.getElementById('project_name');
+          if (projectSelect && project_name) {
+            projectSelect.value = project_name;
+          }
+          
+          // Generate report automatically
+          updateIframes();
+        }, 1000); // 1 second delay to allow AJAX to complete
+      }
+    }
+  });
+  </script>
 
 </body>
 
