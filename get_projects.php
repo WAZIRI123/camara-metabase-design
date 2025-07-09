@@ -21,14 +21,20 @@ if (isset($_GET['country'])) {
     // Check if a projectwas found
     if ($country_name) {
     
-        $stmt1 = $pdo->prepare("SELECT DISTINCT Sc_Projects FROM schools WHERE Sc_Country = :country_name");
+        // Query to get projects for the selected country that have the 'zanzibar' tag
+        $stmt1 = $pdo->prepare("SELECT DISTINCT s.Sc_Projects 
+                               FROM schools s 
+                               WHERE s.Sc_Country = :country_name 
+                               AND s.tags LIKE '%zanzibar%'");
         $stmt1->execute(['country_name' => $country_name]);
-
         $projects1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmt2 = $pdo->prepare("SELECT DISTINCT Sc_Region FROM schools WHERE Sc_Country = :country_name");
+        // Query to get regions for the selected country that have the 'zanzibar' tag
+        $stmt2 = $pdo->prepare("SELECT DISTINCT s.Sc_Region 
+                               FROM schools s 
+                               WHERE s.Sc_Country = :country_name 
+                               AND s.tags LIKE '%zanzibar%'");
         $stmt2->execute(['country_name' => $country_name]);
-
         $regions = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
         // Query to get projects based on the projectID

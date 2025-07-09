@@ -153,14 +153,12 @@ function updateIframes() {
    
   ];
 
-
   const startDate = document.getElementById('startDate').value;
   const endDate = document.getElementById('endDate').value;
   const country = document.getElementById('country').value;
   const project_name = document.getElementById('project_name').value;
   const region = document.getElementById('region').value;
 
-  
   if (!startDate || !endDate || !country) {
     alert("Please select all required fields.");
     return;

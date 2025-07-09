@@ -3,7 +3,7 @@
 
 <!-- Section Title -->
 <div class="container section-title" data-aos="fade-up">
-  <h2>School Daily Usage Average per Synced Clients (Monthly Distribution)</h2>
+  <h2>School Daily Usage Average per Synced Clients (Monthly Distributions)</h2>
   <p>This section shows the average daily usage per synced client on a monthly basis for this school.</p>
 </div><!-- End Section Title -->
 

@@ -174,8 +174,6 @@ function updateIframes() {
   });
 }
 
-    
-
     // AJAX to populate the project list based on the selected country
     $('#country').change(function() {
       var country = $(this).val();
