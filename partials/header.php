@@ -71,6 +71,7 @@ $countries = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <li><a href="/" class="active">Home</a></li>
           <li><a href="schoolReport.php" >School</a></li>
           <li><a href="Region.php" >Regions</a></li>
+          <li><a href="new_portal.php" >New Portal</a></li>
           <li class="dropdown"><a href="#"><span>Portal</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="portal.php">Main Portal</a></li>
